@@ -21,6 +21,8 @@ $(document).ready(function(){
 		// We will create and shuffle a new deck
 		theDeck = freshDeck.slice();
 		theDeck = shuffleDeck(theDeck);
+		playersHand = [];
+		dealersHand = [];
 		// console.log(theDeck);
 		// Update the player and dealer hand arrays...
 		// The player ALWAYS gets teh first card in teh deck...
