@@ -80,8 +80,35 @@ $(document).ready(function(){
 
 	$('.stand-button').click(()=>{
 		// Stand functionallity...
-		console.log("User clicked the stand button")
+		// console.log("User clicked the stand button")
+		// What happens to teh players hand on "Stand"?
+		// - Nothing.
+		// Control passes over the dealer.
+		// Rules for the dealer:
+		// 1. If I have less than 17... I MUST hit
+		// 2. If I have 17 or more, I CANNOT hit (even if it means losing)
+		var dealersTotal = calculateTotal(dealersHand,'dealer');
+		while(dealersTotal < 17){
+			var topCard = theDeck.shift();
+			dealersHand.push(topCard);
+			placeCard('dealer',dealersHand.length, topCard);
+			dealersTotal = calculateTotal(dealersHand,'dealer');
+		}
+		checkWin();
 	})
+
+	function checkWin(){
+		var playerTotal = calculateTotal(playersHand,'player');
+		var dealersTotal = calculateTotal(dealersHand,'dealer');
+
+		// 1. If the player has > 21, player busts and loses.
+		// 2. If the dealer has > 21, dealer busts and loses.
+		// 3. If playersHand.length == 2 AND playerTotal == 21... BLACKJACK
+		// 4. If dealerHand.length == 2 AND dealersTotal == 21... BLACKJACK
+		// 5. If player > dealer, player wins
+		// 6. if dealer > player, dealer wins
+		// 7. else... push (tie)
+	}
 
 	function calculateTotal(hand, who){
 		// purpose:
