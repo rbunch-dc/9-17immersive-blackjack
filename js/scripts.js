@@ -48,10 +48,20 @@ $(document).ready(function(){
 		console.log(playersHand);
 		console.log(dealersHand);
 
+		// Call placeCard for each of the 4 cards.
+		// arg 1: who
+		// arg 2: where
+		// arg 3: what (card to place in teh DOM)
 		placeCard('player',1,playersHand[0]);
 		placeCard('dealer',1,dealersHand[0]);
 		placeCard('player',2,playersHand[1]);
 		placeCard('dealer',2,dealersHand[1]);
+
+		// Figure teh total and put it in teh dom
+		// arg1: entire hand
+		// arg2: who
+		calculateTotal(playersHand,'player')
+		calculateTotal(dealersHand,'dealer')
 
 	})
 
@@ -62,6 +72,25 @@ $(document).ready(function(){
 	$('.stand-button').click(()=>{
 		// Stand functionallity...
 	})
+
+	function calculateTotal(hand, who){
+		// purpose:
+		// 1. Find out the number and return it
+		// 2. Update the DOM with the right number for the right player
+		// init counter at 0
+		var handTotal = 0;
+		// As we loop through the hand, we need a var for each card's value
+		var thisCardsValue = 0;
+		for(let i = 0; i < hand.length; i++){
+			// copy onto thisCardsValue the entire string EXCEPT for the last char (which is the suit)
+			// then, convert it to a number			
+			thisCardsValue = Number(hand[i].slice(0,-1));
+			handTotal += thisCardsValue
+		}
+		var classSelector = `.${who}-total`;
+		$(classSelector).html(handTotal);
+		return handTotal;
+	}
 
 	function placeCard(who,where,whatToPlace){
 						// who = "dealer"
