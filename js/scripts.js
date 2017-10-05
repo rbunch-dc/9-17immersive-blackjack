@@ -67,10 +67,20 @@ $(document).ready(function(){
 
 	$('.hit-button').click(()=>{
 		// Hit functionallity...
+		console.log("User clicked the hit button")
+		// get the top card
+		var topCard = theDeck.shift();
+		// push it on to the playersHand
+		playersHand.push(topCard);
+		// put the card in teh DOM
+		placeCard('player',playersHand.length, topCard)
+		// calculate teh new total
+		calculateTotal(playersHand,'player');
 	})	
 
 	$('.stand-button').click(()=>{
 		// Stand functionallity...
+		console.log("User clicked the stand button")
 	})
 
 	function calculateTotal(hand, who){
