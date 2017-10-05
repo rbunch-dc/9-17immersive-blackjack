@@ -6,3 +6,9 @@
 	padding: 30px 0px;
 }
 
+.card{
+	height: 120px;
+	background-color: #fff;
+	padding: 10px;
+	border: 2px solid #277714;
+}
