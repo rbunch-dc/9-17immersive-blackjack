@@ -1,3 +1,4 @@
+
 // console.log("Sanity Check");
 
 // var jQuery = {}
@@ -19,6 +20,8 @@ $(document).ready(()=>{
 		// console.log("User clicked Deal!");
 		// console.log(e)
 		// theDeck = freshDeck is like theDeck ---> freshDeck
+		playersHand = [];
+		dealersHand = [];
 		var newDeck = freshDeck.slice();
 		theDeck = shuffleDeck(newDeck);
 		// console.log(theDeck);
@@ -39,7 +42,47 @@ $(document).ready(()=>{
 		placeCard('player',2,playersHand[1])
 		placeCard('dealer',2,dealersHand[1])
 
+		calculateTotal(playersHand,'player');
+		calculateTotal(dealersHand,'dealer');
+
 	});
+
+	// hand = the array with cards to total up
+	// who = which section of the DOM to change
+	function calculateTotal(hand,who){
+		var handTotal = 0;
+		var thisCardTotal = 0;
+		var hasAce = false;
+		var totalAces = 0;
+		for(let i = 0; i < hand.length; i++){
+			thisCardTotal = Number(hand[i].slice(0,-1));
+
+			if(thisCardTotal == 1){
+				// this is an Ace!!!
+				hasAce = true;
+				thisCardTotal = 11;
+				totalAces++;
+			}else if (thisCardTotal > 10){
+				// you have a facecard... reset value to 10
+				thisCardTotal = 10;
+			}
+
+			handTotal += thisCardTotal;
+		}
+
+		// We now know the total with ALL aces = 11, and ALL face cards = 10
+		// We now need to reduce the value of any ace from 11 to 1, if it busts the,
+		for(let i = 0; i < totalAces; i++){
+			if(handTotal > 21){
+				handTotal -= 10;
+			}
+		}
+
+		var classSelector = `.${who}-total`;
+		$(classSelector).html(handTotal);
+		return handTotal;
+	}
+
 
 	function placeCard(who,where,card){
 		var classSelector = `.${who}-cards .card-${where}`;
