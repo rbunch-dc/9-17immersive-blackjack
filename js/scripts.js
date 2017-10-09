@@ -11,6 +11,7 @@ $(document).ready(()=>{
 	var theDeck = [];
 	var playersHand = [];
 	var dealersHand = [];
+	var handInProgress = true;
 
 	// $('.form-submit').submit(function(event){
 	// 	event.preventDefault();
@@ -20,6 +21,7 @@ $(document).ready(()=>{
 		// console.log("User clicked Deal!");
 		// console.log(e)
 		// theDeck = freshDeck is like theDeck ---> freshDeck
+		$('.hit-button').prop('disabled',false);
 		playersHand = [];
 		dealersHand = [];
 		var newDeck = freshDeck.slice();
@@ -40,11 +42,42 @@ $(document).ready(()=>{
 		placeCard('player',1,playersHand[0])
 		placeCard('dealer',1,dealersHand[0])
 		placeCard('player',2,playersHand[1])
-		placeCard('dealer',2,dealersHand[1])
+		// placeCard('dealer',2,dealersHand[1])
 
 		calculateTotal(playersHand,'player');
-		calculateTotal(dealersHand,'dealer');
+		// calculateTotal(dealersHand,'dealer');
 
+	});
+
+	$('.hit-button').click(()=>{
+		// only let the player hit, if they have less than 21.
+		if(calculateTotal(playersHand,'player') < 21){
+			// console.log("User clicked Hit!");
+			var topCard = theDeck.shift();
+			playersHand.push(topCard);
+			placeCard('player',playersHand.length,topCard);
+			calculateTotal(playersHand,'player');
+		}else{
+
+		}
+	});
+
+	$('.stand-button').click(()=>{
+		// control passes to the dealer. 
+		// disable the hit button
+		// keep the dealer drawing carfds until he has at least 17 
+		// Then stop
+		// console.log("User clicked Stand!");
+		placeCard('dealer',2,dealersHand[1])
+		$('.hit-button').prop('disabled',true);
+		var dealerTotal = calculateTotal(dealersHand, 'dealer');
+		while(dealerTotal < 17){
+			var topCard = theDeck.shift();
+			dealersHand.push(topCard);
+			placeCard('dealer',dealersHand.length,topCard);
+			dealerTotal = calculateTotal(dealersHand,'dealer');
+		}
+		// in order to get this far, the dealer MUST have at least 17
 	});
 
 	// hand = the array with cards to total up
@@ -89,14 +122,6 @@ $(document).ready(()=>{
 		$(classSelector).html(`<img src="images/cards/${card}.png" />`);
 		// $(classSelector).innerHTML = ""
 	}
-
-	$('.hit-button').click(()=>{
-		// console.log("User clicked Hit!");
-	});
-
-	$('.stand-button').click(()=>{
-		// console.log("User clicked Stand!");
-	});
 
 	function createDeck(){
 		// local var, newDeck. No one outside of createDeck can see it
