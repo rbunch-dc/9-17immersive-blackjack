@@ -7,17 +7,13 @@
 }
 
 .card{
-	/* height: 120px; */
-	/* background-color: #fff; */
-	/* padding: 10px; */
+	height: 120px;
+	background-color: #fff;
+	padding: 10px;
 	border: 2px solid #277714;
 }
 
 .card img{
-	max-width: 100%;
 	max-height: 100%;
-}
-
-.dealer-hand-wrapper, .player-hand-wrapper{
-	margin-bottom: 20px;
+	width: 100%;
 }
